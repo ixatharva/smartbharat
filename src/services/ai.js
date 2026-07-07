@@ -65,7 +65,7 @@ Instructions:
 }
 
 // Calls Vercel serverless function to communicate with Gemini securely on the backend
-async function callVercelBackend(query, chunks, lang) {
+async function askSahaytaAI(query, chunks, lang) {
   const contextBlock = chunks.length > 0 
     ? chunks.map(c => `[Source: ${c.title}]\n${c.text}`).join('\n\n')
     : "No direct official document passages were found in the local knowledge base.";
@@ -89,14 +89,15 @@ Citizen query: "${query}" (Please reply in the language matching code: "${lang}"
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    return data.reply;
+    return data.reply; // Safe response returned from the backend
   } catch (error) {
-    console.warn("Vercel backend call failed or not found. Falling back to offline RAG...", error);
-    return formatOfflineRAGResponse(query, chunks, lang);
+    console.error("Frontend Fetch Error:", error);
+    // Combine optimization message with local RAG fallback guidelines
+    return "Sahayta AI is currently undergoing optimization. Please try again shortly.\n\n" + formatOfflineRAGResponse(query, chunks, lang);
   }
 }
 
@@ -186,7 +187,7 @@ export async function askAI(query, lang = "en") {
     return await callGeminiRAG(query, matchingChunks, apiKey, lang);
   } else {
     // Attempt to hit the Vercel backend serverless function (which falls back to local RAG if not found)
-    return await callVercelBackend(query, matchingChunks, lang);
+    return await askSahaytaAI(query, matchingChunks, lang);
   }
 }
 

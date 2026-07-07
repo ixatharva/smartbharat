@@ -1,5 +1,6 @@
 import { getTranslation } from '../services/translate.js';
 import { saveComplaint } from '../services/db.js';
+import { analyzeGrievance } from '../services/ai.js';
 
 export function renderReport(container, lang, onNavigate) {
   let selectedCategory = 'roads'; // Default
@@ -165,11 +166,16 @@ export function renderReport(container, lang, onNavigate) {
     const ticketNum = Math.floor(10000 + Math.random() * 90000);
     const ticketId = `SB-${ticketNum}`;
 
+    // Call AI analyzer backend
+    const analysis = await analyzeGrievance(title, desc, selectedCategory);
+
     const newComplaint = {
       id: ticketId,
       title: title,
       description: desc,
-      category: selectedCategory,
+      category: analysis.refined_category || selectedCategory,
+      urgency: analysis.urgency || "low",
+      simplified_summary: analysis.simplified_summary || title,
       location: loc,
       date: new Date().toISOString().split('T')[0],
       status: 'submitted',

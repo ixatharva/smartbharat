@@ -152,16 +152,39 @@ export function renderTracker(container, lang, initialSearchId = '') {
 
       <!-- Details List Info -->
       <div style="border-top: 1px solid var(--glass-border); padding-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-        <div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Ticket ID</div>
-          <div style="font-size: 1rem; font-weight: 700; color: hsl(var(--primary-hsl));">${ticket.id}</div>
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Ticket ID</div>
+            <div style="font-size: 1rem; font-weight: 700; color: hsl(var(--primary-hsl));">${ticket.id}</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Urgency Status</div>
+            <span style="display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; margin-top: 0.2rem;
+              background: ${
+                ticket.urgency === 'critical' ? 'rgba(239, 68, 68, 0.15)' :
+                ticket.urgency === 'medium' ? 'rgba(249, 115, 22, 0.15)' : 'rgba(16, 185, 129, 0.15)'
+              };
+              color: ${
+                ticket.urgency === 'critical' ? 'rgb(239, 68, 68)' :
+                ticket.urgency === 'medium' ? 'hsl(var(--accent-hsl))' : 'hsl(var(--secondary-hsl))'
+              };
+            ">
+              ${(ticket.urgency || 'low').toUpperCase()}
+            </span>
+          </div>
         </div>
         <div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Issue Summary</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Issue Title</div>
           <div style="font-size: 1rem; font-weight: 700; color: var(--text-primary);">${ticket.title}</div>
         </div>
         <div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Detailed Description</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">AI Simplified Summary (For Municipal Engineers)</div>
+          <div style="font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); background: hsla(var(--primary-hsl) / 0.05); padding: 0.75rem; border-radius: var(--border-radius-sm); border: 1px dashed hsla(var(--primary-hsl) / 0.15); line-height: 1.4;">
+            ${ticket.simplified_summary || ticket.title}
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Detailed Citizen Description</div>
           <div style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; white-space: pre-wrap;">${ticket.description}</div>
         </div>
         <div>

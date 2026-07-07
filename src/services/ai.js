@@ -157,3 +157,97 @@ export async function askAI(query, lang = "en") {
     });
   }
 }
+
+// Analyze Grievance Backend classification, urgency assessment, and text cleanup
+export async function analyzeGrievance(title, description, defaultCategory) {
+  const apiKey = getApiKey();
+
+  if (apiKey) {
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=\${apiKey}`;
+    const prompt = `
+You are the processing backend for the Smart Bharat platform. Your job is to analyze citizen-reported grievances, classify them accurately, evaluate risk urgency, and clean up the text for civic administrators.
+
+Input variables:
+- title: "\${title}"
+- description: "\${description}"
+- default_category: "\${defaultCategory}"
+
+You must reply with a structured JSON object containing exactly these fields (do not wrap in markdown blocks, output raw JSON):
+{
+  "refined_category": "Re-evaluate if the category fits better under ('roads', 'lights', 'waste', 'water')",
+  "urgency": "Rate the issue ('low', 'medium', 'critical'). Assign 'critical' ONLY if there is an immediate safety threat (e.g., exposed high-voltage wires, open deep drainage manholes, broken main water pipeline flooding a street)",
+  "simplified_summary": "Re-write the user's input into a concise, professional summary for municipal engineers. Strip out emotional language while preserving actionable details (landmarks, times, metrics)."
+}
+`;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            responseMimeType: "application/json"
+          }
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const jsonText = data.candidates[0].content.parts[0].text;
+        return JSON.parse(jsonText);
+      }
+    } catch (error) {
+      console.error("Grievance analysis call failed:", error);
+    }
+  }
+
+  // Local Offline Rule-Based Classifier Fallback
+  const text = (title + " " + description).toLowerCase();
+  
+  // 1. Refined Category
+  let refined = defaultCategory;
+  if (text.includes("water") || text.includes("sewage") || text.includes("leak") || text.includes("drain") || text.includes("overflow")) {
+    refined = "water";
+  } else if (text.includes("light") || text.includes("lamp") || text.includes("wire") || text.includes("dark") || text.includes("pole")) {
+    refined = "lights";
+  } else if (text.includes("garbage") || text.includes("waste") || text.includes("bin") || text.includes("trash") || text.includes("dump")) {
+    refined = "waste";
+  } else if (text.includes("road") || text.includes("pothole") || text.includes("tar") || text.includes("street")) {
+    refined = "roads";
+  }
+
+  // 2. Urgency classification rules
+  let urgency = "low";
+  if (
+    text.includes("high voltage") || 
+    text.includes("exposed wire") || 
+    text.includes("open manhole") || 
+    text.includes("broken main") || 
+    text.includes("flood") || 
+    text.includes("shock") || 
+    text.includes("danger") ||
+    text.includes("accident")
+  ) {
+    urgency = "critical";
+  } else if (
+    text.includes("dark") || 
+    text.includes("overflow") || 
+    text.includes("smell") || 
+    text.includes("block") ||
+    text.includes("traffic")
+  ) {
+    urgency = "medium";
+  }
+
+  // 3. Simplified, non-emotional summary
+  let cleanSummary = `Reported ${refined} issue. ${title}: ${description.substring(0, 90)}${description.length > 90 ? '...' : ''}`;
+  
+  return {
+    refined_category: refined,
+    urgency: urgency,
+    simplified_summary: cleanSummary
+  };
+}

@@ -68,7 +68,7 @@ export function getComplaintById(id) {
 
 // API Key Settings
 export function getApiKey() {
-  return localStorage.getItem("sb_gemini_key") || "";
+  return localStorage.getItem("sb_gemini_key") || import.meta.env.VITE_GEMINI_API_KEY || "";
 }
 
 export function saveApiKey(key) {

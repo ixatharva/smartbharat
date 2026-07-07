@@ -64,6 +64,42 @@ Instructions:
   }
 }
 
+// Calls Vercel serverless function to communicate with Gemini securely on the backend
+async function callVercelBackend(query, chunks, lang) {
+  const contextBlock = chunks.length > 0 
+    ? chunks.map(c => `[Source: ${c.title}]\n${c.text}`).join('\n\n')
+    : "No direct official document passages were found in the local knowledge base.";
+
+  const message = `
+Here is the retrieved official government documentation context related to the query:
+------------------
+${contextBlock}
+------------------
+
+Citizen query: "${query}" (Please reply in the language matching code: "${lang}")
+`;
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.reply;
+  } catch (error) {
+    console.warn("Vercel backend call failed or not found. Falling back to offline RAG...", error);
+    return formatOfflineRAGResponse(query, chunks, lang);
+  }
+}
+
 // Formats response for offline RAG mode (when no API key is set)
 function formatOfflineRAGResponse(query, chunks, lang) {
   const isHindi = lang === 'hi';
@@ -149,12 +185,8 @@ export async function askAI(query, lang = "en") {
   if (apiKey) {
     return await callGeminiRAG(query, matchingChunks, apiKey, lang);
   } else {
-    // Local processing simulated delay
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(formatOfflineRAGResponse(query, matchingChunks, lang));
-      }, 600);
-    });
+    // Attempt to hit the Vercel backend serverless function (which falls back to local RAG if not found)
+    return await callVercelBackend(query, matchingChunks, lang);
   }
 }
 

@@ -135,7 +135,9 @@ export function renderReport(container, lang, onNavigate) {
 
   // Handle Form Submission
   const form = document.getElementById('grievance-form');
-  form.addEventListener('submit', () => {
+  const submitBtn = document.getElementById('btn-submit-grievance');
+
+  form.addEventListener('submit', async () => {
     const title = document.getElementById('report-title').value.trim();
     const desc = document.getElementById('report-desc').value.trim();
     const loc = document.getElementById('report-loc').value.trim();
@@ -144,6 +146,20 @@ export function renderReport(container, lang, onNavigate) {
       showToast(getTranslation(lang, 'rep_err_title'), 'error');
       return;
     }
+
+    // Toggle loading state on button
+    submitBtn.disabled = true;
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = `
+      <div class="typing-indicator" style="height: 10px; width: 30px; margin: 0 auto;">
+        <span class="typing-dot" style="background-color: #fff;"></span>
+        <span class="typing-dot" style="background-color: #fff;"></span>
+        <span class="typing-dot" style="background-color: #fff;"></span>
+      </div>
+    `;
+
+    // Simulate async API upload call
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Generate random ticket ID (e.g. SB-89234)
     const ticketNum = Math.floor(10000 + Math.random() * 90000);

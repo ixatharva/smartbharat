@@ -144,3 +144,70 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: hsla(var(--text-muted-val) / 0.5);
 }
+
+/* ==========================================================================
+   ♿ Accessibility Settings Styling (High Contrast & Font Scaling)
+   ========================================================================== */
+
+/* Font Size Scaling */
+html[data-a11y-size="large"] {
+  font-size: 18px !important; /* Dynamic scale up */
+}
+html[data-a11y-size="xlarge"] {
+  font-size: 20px !important; /* High visibility scale up */
+}
+
+/* WCAG AAA High Contrast Overlay overrides */
+html[data-a11y-contrast="high"] {
+  --bg-primary: #000000 !important;
+  --bg-secondary: #0a0a0a !important;
+  --glass-bg: #000000 !important;
+  --glass-border: #ffffff !important;
+  --text-primary: #ffffff !important;
+  --text-secondary: #ffff00 !important;
+  --text-muted: #ffffff !important;
+  --primary: #ffffff !important;
+  --secondary: #ffff00 !important;
+  --accent: #ffff00 !important;
+  --info: #ffffff !important;
+  --card-shadow: none !important;
+  --btn-shadow: none !important;
+  --glow-primary: none !important;
+  --glow-secondary: none !important;
+}
+
+html[data-a11y-contrast="high"] .glass-card {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: none !important;
+}
+
+html[data-a11y-contrast="high"] button, 
+html[data-a11y-contrast="high"] .btn,
+html[data-a11y-contrast="high"] select,
+html[data-a11y-contrast="high"] input,
+html[data-a11y-contrast="high"] textarea {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 800 !important;
+  box-shadow: none !important;
+}
+
+html[data-a11y-contrast="high"] select option {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html[data-a11y-contrast="high"] button:hover, 
+html[data-a11y-contrast="high"] .btn:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+html[data-a11y-contrast="high"] .nav-link.active {
+  border-bottom: 3px solid #ffff00 !important;
+  color: #ffff00 !important;
+  background: #111111 !important;
+}
+

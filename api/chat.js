@@ -17,6 +17,15 @@ export default async function handler(req, res) {
 
   try {
     const { message, history } = req.body;
+    if (!message || typeof message !== 'string') {
+      return res.status(400).json({ error: 'Message is required and must be a valid string.' });
+    }
+
+    // Clean HTML/Script tags to prevent tag injection attacks
+    const sanitizedMessage = message.replace(/<[^>]*>/g, '').trim();
+    if (sanitizedMessage.length === 0) {
+      return res.status(400).json({ error: 'Invalid message content.' });
+    }
 
     // Securely pull the key on the serverless instance
     const apiKey = process.env.GEMINI_API_KEY;
@@ -29,7 +38,7 @@ export default async function handler(req, res) {
     // Call the model with our strict backend guardrails
     const response = await ai.models.generateContent({
       model: 'gemini-1.5-flash',
-      contents: message,
+      contents: sanitizedMessage,
       config: {
         systemInstruction: `
           You are the exclusive backend processor for the Smart Bharat AI Civic Companion. 

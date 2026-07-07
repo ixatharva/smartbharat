@@ -88,20 +88,52 @@
             <span class="page-subtitle" id="lbl-page-subtitle">Civic Health and Overview</span>
           </div>
 
-          <div class="action-controls">
+          <div class="action-controls" style="position: relative;">
             <!-- Language Selection Switcher -->
             <div class="lang-select-wrapper">
-              <select class="select-custom" id="select-lang-switch">
+              <select class="select-custom" id="select-lang-switch" aria-label="Select Language">
                 <option value="en">English</option>
                 <option value="hi">हिन्दी (Hindi)</option>
                 <option value="ta">தமிழ் (Tamil)</option>
               </select>
             </div>
 
+            <!-- Accessibility Trigger Button -->
+            <button class="icon-btn" id="btn-a11y-toggle" title="Accessibility Settings" aria-label="Accessibility Customization Panel" aria-haspopup="dialog" aria-expanded="false">
+              <span style="font-size: 1.1rem; line-height: 1;">♿</span>
+            </button>
+
             <!-- Theme Toggling Switcher -->
-            <button class="icon-btn" id="btn-theme-toggle" title="Toggle Light/Dark Theme">
+            <button class="icon-btn" id="btn-theme-toggle" title="Toggle Light/Dark Theme" aria-label="Toggle Light and Dark Theme">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="icon-theme-dark"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             </button>
+
+            <!-- Accessibility Dropdown Panel -->
+            <div class="glass-card" id="panel-a11y-settings" style="display: none; position: absolute; top: 45px; right: 0; z-index: 1000; width: 250px; padding: 1rem; flex-direction: column; gap: 0.8rem; box-shadow: var(--card-shadow);" role="dialog" aria-label="Accessibility Settings Panel">
+              <h4 style="margin: 0 0 0.4rem 0; font-size: 0.95rem; font-weight: 700; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.3rem;">♿ Accessibility Help</h4>
+              
+              <!-- Contrast Toggle -->
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+                <label for="switch-a11y-contrast" style="font-size: 0.8rem; font-weight: 600; cursor: pointer;">High Contrast Mode</label>
+                <input type="checkbox" id="switch-a11y-contrast" style="cursor: pointer;" aria-label="Toggle High Contrast Mode">
+              </div>
+
+              <!-- Font Sizing Picker -->
+              <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <label for="select-a11y-size" style="font-size: 0.8rem; font-weight: 600;">Text Scaling Size</label>
+                <select id="select-a11y-size" class="select-custom" style="width: 100%; font-size: 0.8rem;" aria-label="Select Text Scaling Size">
+                  <option value="normal">Standard Text</option>
+                  <option value="large">Large Text (+25%)</option>
+                  <option value="xlarge">Extra Large (+50%)</option>
+                </select>
+              </div>
+
+              <!-- Voice Assist Toggle -->
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+                <label for="switch-a11y-voice" style="font-size: 0.8rem; font-weight: 600; cursor: pointer;">Voice Hover Assist</label>
+                <input type="checkbox" id="switch-a11y-voice" style="cursor: pointer;" aria-label="Toggle Text-To-Speech Screen Voice Assist">
+              </div>
+            </div>
           </div>
         </header>
 

@@ -50,7 +50,15 @@ const DOC_VECTORS = KNOWLEDGE_BASE.map((doc, idx) => {
   return tfidf;
 });
 
-// Main Context Retriever: Calculates Cosine Similarity between Query and Document Chunks
+/**
+ * Main Context Retriever.
+ * Tokenizes the citizen's query, computes real-time TF-IDF term weights,
+ * and calculates Cosine Similarity scores against pre-processed manual document chunks.
+ * 
+ * @param {string} query - Expanded query text to search for.
+ * @param {number} limit - Maximum number of matched passages to return (defaults to 2).
+ * @returns {Array<Object>} List of top-scoring matching document segments.
+ */
 export function retrieveContext(query, limit = 2) {
   const queryTokens = tokenize(query);
   if (queryTokens.length === 0) return [];

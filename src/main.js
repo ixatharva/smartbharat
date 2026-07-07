@@ -76,6 +76,111 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(currentTheme);
   });
 
+  // Load and apply accessibility settings
+  const contrastSwitch = document.getElementById('switch-a11y-contrast');
+  const sizeSelect = document.getElementById('select-a11y-size');
+  const voiceSwitch = document.getElementById('switch-a11y-voice');
+
+  const contrastVal = localStorage.getItem('sb_a11y_contrast') || 'normal';
+  const sizeVal = localStorage.getItem('sb_a11y_size') || 'normal';
+  const voiceVal = localStorage.getItem('sb_a11y_voice') || 'false';
+
+  if (contrastSwitch) contrastSwitch.checked = contrastVal === 'high';
+  if (sizeSelect) sizeSelect.value = sizeVal;
+  if (voiceSwitch) voiceSwitch.checked = voiceVal === 'true';
+
+  applyA11ySettings(contrastVal, sizeVal);
+
+  // Toggle dropdown
+  const a11yBtn = document.getElementById('btn-a11y-toggle');
+  const a11yPanel = document.getElementById('panel-a11y-settings');
+  if (a11yBtn && a11yPanel) {
+    a11yBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isVisible = a11yPanel.style.display === 'flex';
+      a11yPanel.style.display = isVisible ? 'none' : 'flex';
+      a11yBtn.setAttribute('aria-expanded', !isVisible);
+    });
+
+    // Close panel on outside click
+    document.addEventListener('click', () => {
+      a11yPanel.style.display = 'none';
+      a11yBtn.setAttribute('aria-expanded', 'false');
+    });
+    a11yPanel.addEventListener('click', (e) => e.stopPropagation());
+  }
+
+  // Listeners for adjustments
+  if (contrastSwitch) {
+    contrastSwitch.addEventListener('change', (e) => {
+      const val = e.target.checked ? 'high' : 'normal';
+      localStorage.setItem('sb_a11y_contrast', val);
+      applyA11ySettings(val, sizeSelect ? sizeSelect.value : 'normal');
+    });
+  }
+
+  if (sizeSelect) {
+    sizeSelect.addEventListener('change', (e) => {
+      const val = e.target.value;
+      localStorage.setItem('sb_a11y_size', val);
+      applyA11ySettings(contrastSwitch && contrastSwitch.checked ? 'high' : 'normal', val);
+    });
+  }
+
+  if (voiceSwitch) {
+    voiceSwitch.addEventListener('change', (e) => {
+      localStorage.setItem('sb_a11y_voice', e.target.checked ? 'true' : 'false');
+      if (!e.target.checked && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    });
+  }
+
+  // Text-To-Speech Speech Synthesis engine
+  let activeUtterance = null;
+  function speakText(text) {
+    if (localStorage.getItem("sb_a11y_voice") !== "true") return;
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel(); // Stop current speech
+      if (!text) return;
+      activeUtterance = new SpeechSynthesisUtterance(text);
+      
+      const lang = localStorage.getItem("sb_lang") || "en";
+      if (lang === "hi") activeUtterance.lang = "hi-IN";
+      else if (lang === "ta") activeUtterance.lang = "ta-IN";
+      else activeUtterance.lang = "en-US";
+      
+      window.speechSynthesis.speak(activeUtterance);
+    }
+  }
+
+  // Voice hover/focus screen reader assist listeners
+  document.addEventListener('mouseover', (e) => {
+    if (localStorage.getItem("sb_a11y_voice") !== "true") return;
+    const target = e.target;
+    if (target.matches('button, input, select, textarea, a, p, h1, h2, h3, h4, span, label, img, li')) {
+      const readText = target.getAttribute('aria-label') || target.alt || target.textContent || target.placeholder || '';
+      if (readText && readText.trim().length < 200) {
+        speakText(readText.trim());
+      }
+    }
+  }, { passive: true });
+
+  function applyA11ySettings(contrast, size) {
+    const root = document.documentElement;
+    if (contrast === 'high') {
+      root.setAttribute('data-a11y-contrast', 'high');
+    } else {
+      root.removeAttribute('data-a11y-contrast');
+    }
+
+    if (size === 'normal') {
+      root.removeAttribute('data-a11y-size');
+    } else {
+      root.setAttribute('data-a11y-size', size);
+    }
+  }
+
   // Initial Route
   navigate('dashboard');
 });

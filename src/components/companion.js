@@ -36,47 +36,47 @@ export function renderCompanion(container, lang) {
           </div>
         </div>
         
-        <button class="icon-btn" id="btn-api-settings" title="${getTranslation(lang, 'chat_api_setting')}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.1a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        <button class="icon-btn" id="btn-api-settings" title="${getTranslation(lang, 'chat_api_setting')}" aria-label="${getTranslation(lang, 'chat_api_setting')}" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.1a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
         </button>
       </div>
 
       <!-- Chat area history -->
-      <div class="chat-history" id="chat-history-box">
+      <div class="chat-history" id="chat-history-box" aria-live="polite" aria-relevant="additions" role="log">
         <!-- Message Bubbles Rendered Dynamically -->
       </div>
 
       <!-- Suggestion chips wrapper -->
       <div style="margin-top: 1rem; flex-shrink: 0;">
-        <div class="chip-container">
-          <button class="chip-suggestion">${getTranslation(lang, 'chat_suggest_1')}</button>
-          <button class="chip-suggestion">${getTranslation(lang, 'chat_suggest_2')}</button>
-          <button class="chip-suggestion">${getTranslation(lang, 'chat_suggest_3')}</button>
-          <button class="chip-suggestion">${getTranslation(lang, 'chat_suggest_4')}</button>
+        <div class="chip-container" role="group" aria-label="Suggested quick questions">
+          <button class="chip-suggestion" aria-label="${getTranslation(lang, 'chat_suggest_1')}">${getTranslation(lang, 'chat_suggest_1')}</button>
+          <button class="chip-suggestion" aria-label="${getTranslation(lang, 'chat_suggest_2')}">${getTranslation(lang, 'chat_suggest_2')}</button>
+          <button class="chip-suggestion" aria-label="${getTranslation(lang, 'chat_suggest_3')}">${getTranslation(lang, 'chat_suggest_3')}</button>
+          <button class="chip-suggestion" aria-label="${getTranslation(lang, 'chat_suggest_4')}">${getTranslation(lang, 'chat_suggest_4')}</button>
         </div>
       </div>
 
       <!-- Bottom entry panel -->
       <div class="chat-controls-bar" style="flex-shrink: 0;">
-        <button class="icon-btn" id="btn-companion-mic" title="Voice Input" style="border-radius: 50%;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        <button class="icon-btn" id="btn-companion-mic" title="Voice Input" style="border-radius: 50%;" aria-label="Enter question using speech recognition voice input">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
         </button>
         
-        <input type="text" class="chat-input" id="companion-chat-input" placeholder="${getTranslation(lang, 'chat_placeholder')}" autocomplete="off">
+        <input type="text" class="chat-input" id="companion-chat-input" placeholder="${getTranslation(lang, 'chat_placeholder')}" autocomplete="off" aria-label="Enter your civic question or complaint ticket ID here">
         
-        <button class="btn btn-primary" id="btn-companion-send">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        <button class="btn btn-primary" id="btn-companion-send" aria-label="Send Message">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
 
     </div>
 
     <!-- API Settings Modal Overlay -->
-    <div class="modal-overlay" id="api-modal-overlay">
+    <div class="modal-overlay" id="api-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="api-modal-title">
       <div class="glass-card modal-content" style="padding: 2rem;">
         <div class="modal-header">
-          <h3 style="font-family: var(--font-secondary); font-size: 1.25rem; font-weight: 800;">${getTranslation(lang, 'chat_api_setting')}</h3>
-          <button class="drawer-close" id="btn-close-api-modal">&times;</button>
+          <h3 id="api-modal-title" style="font-family: var(--font-secondary); font-size: 1.25rem; font-weight: 800;">${getTranslation(lang, 'chat_api_setting')}</h3>
+          <button class="drawer-close" id="btn-close-api-modal" aria-label="Close API Modal">&times;</button>
         </div>
         
         <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.5;">
@@ -84,7 +84,7 @@ export function renderCompanion(container, lang) {
         </p>
 
         <div class="form-group">
-          <label class="form-label">${getTranslation(lang, 'chat_api_label')}</label>
+          <label class="form-label" for="input-api-key">${getTranslation(lang, 'chat_api_label')}</label>
           <input type="password" class="form-control" id="input-api-key" placeholder="AIzaSy..." value="${getApiKey()}">
         </div>
 

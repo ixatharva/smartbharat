@@ -19,21 +19,21 @@ export function renderReport(container, lang, onNavigate) {
         <!-- Category Selector -->
         <div class="form-group" style="margin-bottom: 1.75rem;">
           <label class="form-label">${getTranslation(lang, 'rep_lbl_category')}</label>
-          <div class="category-picker">
-            <div class="picker-card selected" data-cat="roads">
-              <div class="picker-icon">🚧</div>
+          <div class="category-picker" role="radiogroup" aria-label="${getTranslation(lang, 'rep_lbl_category')}">
+            <div class="picker-card selected" data-cat="roads" tabindex="0" role="radio" aria-checked="true" aria-label="${getTranslation(lang, 'rep_cat_roads')}">
+              <div class="picker-icon" aria-hidden="true">🚧</div>
               <div class="picker-label">${getTranslation(lang, 'rep_cat_roads')}</div>
             </div>
-            <div class="picker-card" data-cat="lights">
-              <div class="picker-icon">💡</div>
+            <div class="picker-card" data-cat="lights" tabindex="0" role="radio" aria-checked="false" aria-label="${getTranslation(lang, 'rep_cat_lights')}">
+              <div class="picker-icon" aria-hidden="true">💡</div>
               <div class="picker-label">${getTranslation(lang, 'rep_cat_lights')}</div>
             </div>
-            <div class="picker-card" data-cat="waste">
-              <div class="picker-icon">🗑</div>
+            <div class="picker-card" data-cat="waste" tabindex="0" role="radio" aria-checked="false" aria-label="${getTranslation(lang, 'rep_cat_waste')}">
+              <div class="picker-icon" aria-hidden="true">🗑</div>
               <div class="picker-label">${getTranslation(lang, 'rep_cat_waste')}</div>
             </div>
-            <div class="picker-card" data-cat="water">
-              <div class="picker-icon">💧</div>
+            <div class="picker-card" data-cat="water" tabindex="0" role="radio" aria-checked="false" aria-label="${getTranslation(lang, 'rep_cat_water')}">
+              <div class="picker-icon" aria-hidden="true">💧</div>
               <div class="picker-label">${getTranslation(lang, 'rep_cat_water')}</div>
             </div>
           </div>
@@ -59,9 +59,9 @@ export function renderReport(container, lang, onNavigate) {
 
         <!-- Image Upload Simulated -->
         <div class="form-group" style="margin-bottom: 2rem;">
-          <label class="form-label">${getTranslation(lang, 'rep_lbl_photo')}</label>
-          <div class="upload-zone" id="report-upload-zone">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <label class="form-label" for="report-file-input">${getTranslation(lang, 'rep_lbl_photo')}</label>
+          <div class="upload-zone" id="report-upload-zone" tabindex="0" role="button" aria-label="Upload supporting image files">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             <div class="upload-text">${getTranslation(lang, 'rep_upload_placeholder')}</div>
             <input type="file" id="report-file-input" accept="image/*" style="display: none;">
             
@@ -81,12 +81,25 @@ export function renderReport(container, lang, onNavigate) {
 
   // Hook category selectors
   const pickerCards = document.querySelectorAll('.picker-card');
+  function selectCategory(target) {
+    pickerCards.forEach(c => {
+      c.classList.remove('selected');
+      c.setAttribute('aria-checked', 'false');
+    });
+    target.classList.add('selected');
+    target.setAttribute('aria-checked', 'true');
+    selectedCategory = target.getAttribute('data-cat');
+  }
+
   pickerCards.forEach(card => {
     card.addEventListener('click', (e) => {
-      pickerCards.forEach(c => c.classList.remove('selected'));
-      const target = e.currentTarget;
-      target.classList.add('selected');
-      selectedCategory = target.getAttribute('data-cat');
+      selectCategory(e.currentTarget);
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectCategory(e.currentTarget);
+      }
     });
   });
 

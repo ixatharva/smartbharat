@@ -40,6 +40,14 @@ const TAMIL_NLP_MAP = {
   "புகார்": "complaint status ticket"
 };
 
+/**
+ * Router Gateway Layer.
+ * Classifies citizen query intent (Grievance Tracking vs. General Scheme Inquiry)
+ * and expands multilingual search keys (Hindi and Tamil) to optimize matching.
+ * 
+ * @param {string} query - Raw text query from the user interface.
+ * @returns {Object} Router outcome containing intent, extractedId, and expandedQuery.
+ */
 export function routeQuery(query) {
   const q = query.trim();
   const qLower = q.toLowerCase();

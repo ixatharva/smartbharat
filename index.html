@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇮🇳</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Bharat – AI-Powered Civic Companion</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/src/styles/theme.css" />
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body>
+    <!-- Background mesh spots -->
+    <div class="glow-spot glow-spot-1"></div>
+    <div class="glow-spot glow-spot-2"></div>
+
+    <!-- Application shell container -->
+    <div class="app-container">
+      
+      <!-- Left Navigation Sidebar -->
+      <aside class="app-sidebar" id="app-sidebar-element">
+        <div class="brand-section">
+          <div class="brand-logo">SB</div>
+          <div style="display: flex; flex-direction: column;">
+            <span class="brand-name">Smart Bharat</span>
+            <span style="font-size: 0.65rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px;" id="lbl-brand-subtitle">AI Civic Companion</span>
+          </div>
+        </div>
+
+        <nav style="flex: 1;">
+          <ul class="nav-links">
+            <li>
+              <a class="nav-item active" data-view="dashboard" id="nav-link-dashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                <span id="lbl-nav-dashboard">Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav-item" data-view="companion" id="nav-link-companion">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span id="lbl-nav-companion">Sahayta AI</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav-item" data-view="services" id="nav-link-services">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                <span id="lbl-nav-services">Service Navigator</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav-item" data-view="report" id="nav-link-report">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span id="lbl-nav-report">Report Grievance</span>
+              </a>
+            </li>
+            <li>
+              <a class="nav-item" data-view="tracker" id="nav-link-tracker">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+                <span id="lbl-nav-tracker">Track Complaint</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-badge">
+            <div class="avatar">IND</div>
+            <div class="user-details">
+              <span class="user-name">Indian Citizen</span>
+              <span class="user-status">Verified Account</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Main Content Panel -->
+      <main class="app-content">
+        <!-- Top bar header panel -->
+        <header class="top-nav">
+          <!-- Toggle sidebar for mobile screens -->
+          <button class="mobile-nav-toggle" id="btn-mobile-sidebar-toggle">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+
+          <div class="page-title-container">
+            <h1 class="page-title" id="lbl-page-title">Dashboard</h1>
+            <span class="page-subtitle" id="lbl-page-subtitle">Civic Health and Overview</span>
+          </div>
+
+          <div class="action-controls">
+            <!-- Language Selection Switcher -->
+            <div class="lang-select-wrapper">
+              <select class="select-custom" id="select-lang-switch">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="ta">தமிழ் (Tamil)</option>
+              </select>
+            </div>
+
+            <!-- Theme Toggling Switcher -->
+            <button class="icon-btn" id="btn-theme-toggle" title="Toggle Light/Dark Theme">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="icon-theme-dark"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- View Content Target Mount -->
+        <div id="view-content-target" style="flex: 1;"></div>
+      </main>
+
+    </div>
+
+    <!-- Active notifications alert console -->
+    <div class="toast-container"></div>
+
+    <!-- Main Module Script -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

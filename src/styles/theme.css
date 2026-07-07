@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* HSL Colors for default premium dark theme */
+  --bg-primary-val: 222 20% 6%;       /* #090c10 */
+  --bg-secondary-val: 222 20% 10%;   /* #0f141c */
+  --glass-bg-val: 222 20% 10%;
+  --glass-bg-opacity: 0.6;
+  
+  --primary-hsl: 239 84% 67%;         /* Glowing Indigo */
+  --secondary-hsl: 160 84% 39%;       /* Vibrant Emerald */
+  --accent-hsl: 24 95% 53%;           /* Warm Orange (Saffron) */
+  --info-hsl: 200 95% 50%;            /* Sky Blue */
+  
+  --text-primary-val: 220 20% 96%;
+  --text-secondary-val: 215 15% 75%;
+  --text-muted-val: 215 10% 50%;
+  
+  /* Derivations */
+  --bg-primary: hsl(var(--bg-primary-val));
+  --bg-secondary: hsl(var(--bg-secondary-val));
+  --glass-bg: hsla(var(--glass-bg-val) / var(--glass-bg-opacity));
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --glass-glow: rgba(99, 102, 241, 0.05);
+  
+  --primary: hsl(var(--primary-hsl));
+  --primary-rgb: 99, 102, 241;
+  --secondary: hsl(var(--secondary-hsl));
+  --secondary-rgb: 16, 185, 129;
+  --accent: hsl(var(--accent-hsl));
+  --info: hsl(var(--info-hsl));
+  
+  --text-primary: hsl(var(--text-primary-val));
+  --text-secondary: hsl(var(--text-secondary-val));
+  --text-muted: hsl(var(--text-muted-val));
+  
+  /* Shadows & Glows */
+  --card-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+  --btn-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.3);
+  --glow-primary: 0 0 25px rgba(99, 102, 241, 0.25);
+  --glow-secondary: 0 0 25px rgba(16, 185, 129, 0.2);
+  
+  /* Fonts */
+  --font-primary: 'Plus Jakarta Sans', sans-serif;
+  --font-secondary: 'Outfit', sans-serif;
+  
+  /* Transitions & Radii */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --border-radius-sm: 8px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+}
+
+[data-theme="light"] {
+  /* HSL Colors for Light Theme */
+  --bg-primary-val: 220 20% 97%;       /* Crisp Light gray */
+  --bg-secondary-val: 0 0% 100%;       /* Pure White cards */
+  --glass-bg-val: 0 0% 100%;
+  --glass-bg-opacity: 0.85;
+  
+  --primary-hsl: 239 84% 57%;         /* Darker Indigo */
+  --secondary-hsl: 160 84% 32%;       /* Darker Emerald */
+  --accent-hsl: 24 95% 45%;
+  --info-hsl: 200 95% 40%;
+  
+  --text-primary-val: 222 20% 10%;
+  --text-secondary-val: 220 12% 35%;
+  --text-muted-val: 220 8% 55%;
+  
+  /* Derivations */
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-glow: rgba(99, 102, 241, 0.02);
+  --card-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.06);
+  --btn-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.2);
+}
+
+/* Global resets and standard tags */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Background animated glow spots */
+.glow-spot {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(140px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.45;
+  transition: all var(--transition-normal);
+}
+
+.glow-spot-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, hsla(var(--primary-hsl) / 0.35) 0%, rgba(0,0,0,0) 70%);
+  top: -10%;
+  right: -10%;
+  animation: float-slow 12s infinite alternate;
+}
+
+.glow-spot-2 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, hsla(var(--secondary-hsl) / 0.25) 0%, rgba(0,0,0,0) 70%);
+  bottom: -10%;
+  left: -10%;
+  animation: float-slow 18s infinite alternate-reverse;
+}
+
+@keyframes float-slow {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(50px, 40px) scale(1.15);
+  }
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: hsla(var(--text-muted-val) / 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsla(var(--text-muted-val) / 0.5);
+}
